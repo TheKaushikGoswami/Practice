@@ -1,56 +1,28 @@
-document.querySelector('form').addEventListener('submit', function(e) {
-    e.preventDefault();
+function addTask(){
 
-    let taskDesc = document.querySelector('input[name="task-desc"]').value;
-    let deadline = document.querySelector('input[name="deadline"]').value;
-    let priority = document.querySelector('select[name="priority"]').value;
-    let project = document.querySelector('select[name="project"]').value;
-    let labels = document.querySelector('input[name="labels"]').value;
+    let taskDesc = document.getElementById("task_name").value;
 
     if (taskDesc) {
         let taskItem = document.createElement('div');
         taskItem.className = 'task-item';
-
         let checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
-        checkbox.className = 'task-complete-checkbox';
+        checkbox.className = 'task-complete-checkbox mx-2';
         checkbox.addEventListener('change', function() {
             if (checkbox.checked) {
-                taskText.style.textDecoration = 'line-through';
+                taskItem.style.textDecoration = 'line-through';
             } else {
-                taskText.style.textDecoration = 'none';
+                taskItem.style.textDecoration = 'none';
             }
-            updateProgressBar();
         });
 
-        let taskText = document.createElement('div');
+        let taskText = document.createElement('span');
         taskText.className = 'task-text';
-        taskText.textContent = `Task: ${taskDesc}`;
-
-        let btn = document.createElement('button');
-        btn.className = 'btn delete btn-danger';
-        btn.textContent = 'Delete';
-        btn.addEventListener('click', function() {
-            taskItem.remove();
-            updateProgressBar();
-        });
-
+        taskText.innerHTML = taskDesc;
         taskItem.appendChild(checkbox);
         taskItem.appendChild(taskText);
-        taskItem.appendChild(btn);
-
-        document.querySelector('.tasks').appendChild(taskItem);
-        document.querySelector('form').reset();
-        updateProgressBar();
+        document.getElementById("tasks").appendChild(taskItem);
     }
-});
-
-function updateProgressBar() {
-    let totalTasks = document.querySelectorAll('.task-item').length;
-    let completedTasks = document.querySelectorAll('input[type="checkbox"]:checked').length;
-    let completionPercentage = (completedTasks / totalTasks) * 100;
+    document.getElementById("task_name").value = '';
     
-    let progressBar = document.querySelector('.progress-bar');
-    progressBar.style.width = `${completionPercentage}%`;
-    progressBar.setAttribute('aria-valuenow', completionPercentage);
-}
+};
